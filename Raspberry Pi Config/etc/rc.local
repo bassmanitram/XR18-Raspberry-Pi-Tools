@@ -1,0 +1,37 @@
+#!/bin/bash
+#
+# rc.local
+#
+# This script is executed at the end of each multiuser runlevel.
+# Make sure that the script will "exit 0" on success or any other
+# value on error.
+#
+# In order to enable or disable this script just change the execution
+# bits.
+#
+# By default this script does nothing.
+rm /tmp/rc.local.log
+touch /tmp/rc.local.log
+
+# Print the IP address
+_IP=$(hostname -I) || true
+if [ "$_IP" ]; then
+  printf "My IP address is %s\n" "$_IP" >> /tmp/rc.local.log
+fi
+
+_COUNT=0
+_WLAN0_IP=$(ip -4 addr show wlan0 | grep -oP '(?<=inet\s)\d+(\.\d+){3}')
+
+while [ -z "$_WLAN0_IP" -a "$_COUNT" -lt 3 ]; do
+	echo "Awaiting IP address of wlan0..." >> /tmp/rc.local.log
+	_COUNT=$((_COUNT+1))
+	sleep 10
+	_WLAN0_IP=$(ip -4 addr show wlan0 | grep -oP '(?<=inet\s)\d+(\.\d+){3}')
+done
+
+if [ "$_WLAN0_IP" ]; then
+	su pi -c "/usr/bin/vncserver -randr=1280x720 -iconnect ${_WLAN0_IP}" >> /tmp/rc.local.log
+else
+	echo "No WLAN0 IP address available" >> /tmp/rc.local.log
+fi
+exit 0

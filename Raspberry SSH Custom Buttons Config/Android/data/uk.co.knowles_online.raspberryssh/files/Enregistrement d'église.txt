@@ -1,0 +1,54 @@
+true
+false
+3
+2
+false
+false
+false
+false
+  Raspberry Pi 1
+  Raspberry Pi 2
+  Raspberry Pi 3
+  Raspberry Pi 4
+192.168.4.1
+22
+pi
+<the password goes here>
+Démarrer l'enregistrement
+services/startsvc recording XR18 2 15db
+true
+tmp1
+192.168.4.1
+22
+pi
+<the password goes here>
+Arreter l'enregistrement
+services/stopsvc recording
+true
+tmp1
+192.168.4.1
+22
+pi
+<the password goes here>
+Controller l'enregistrement
+services/checksvc recording
+true
+tmp1
+false
+null
+Green
+Spare Setting 2
+Spare Setting 3
+Spare Setting 4
+false
+null
+Raspberry
+Spare Setting 2
+Spare Setting 3
+Spare Setting 4
+false
+null
+Blue
+Spare Setting 2
+Spare Setting 3
+Spare Setting 4

@@ -1,0 +1,83 @@
+#!/bin/bash
+
+NAME=${1:?"First argument must be a service name"}
+PIDFILE="$HOME/services/status/${NAME}.pid"
+LOGFILE="$HOME/services/status/${NAME}.log"
+COMMAND="$HOME/services/${NAME}"
+
+[[ -e "$COMMAND" ]] || { echo "$COMMAND not found"; exit 3; }
+
+ACTION=$(basename $0)
+
+shift
+
+if [ "$ACTION" == "startsvc" ]; then
+	#
+	# Make sure we are not already running the command
+	# cleaning up just in case the command left us unexpectedly
+	#
+	if [ -e "${PIDFILE}" ]; then
+		MYPID=$(cat "${PIDFILE}")
+		kill -0 ${MYPID} > /dev/null 2>&1
+		if [ $? -eq 0 ]; then
+			echo "$NAME already running"
+			exit 1
+		else
+			rm -f "${PIDFILE}"
+		fi
+	fi
+
+	"${COMMAND}" "$@" > ${LOGFILE} 2>&1 &
+	
+	SVCPID=$!
+
+	sleep 5
+
+	kill -0 $SVCPID
+
+	if [ $? -ne 0 ]; then
+		echo "${NAME} failed to start"
+		tail "$LOGFILE"
+	else
+		disown
+		if [ $? -ne 0 ]; then
+			echo "${NAME} failed to start"
+			tail "$LOGFILE"
+		else
+			echo $SVCPID > "${PIDFILE}"
+			echo "${NAME} started"
+		fi
+	fi
+
+elif [ "$ACTION" == "stopsvc" ]; then
+	if [ -e "${PIDFILE}" ]; then
+		MYPID=$(cat "${PIDFILE}")
+		kill -- -$(ps -o pgid= ${MYPID} | grep -o [0-9]*) > /dev/null 2>&1
+		if [ $? -eq 0 ]; then
+			echo "$NAME stopped"
+		else
+			echo "$NAME not running"
+			tail "$LOGFILE"
+		fi
+		rm -f "${PIDFILE}"
+	else
+		echo "$NAME not running"
+	fi
+
+elif [ "$ACTION" == "checksvc" ]; then
+	if [ -e "${PIDFILE}" ]; then
+		MYPID=$(cat "${PIDFILE}")
+		kill -0 ${MYPID} > /dev/null 2>&1
+		if [ $? -eq 0 ]; then
+			echo "$NAME running"
+		else
+			echo "$NAME not running"
+			tail "$LOGFILE"
+			rm -f "${PIDFILE}"
+		fi
+	else
+		echo "$NAME not running"
+	fi
+else
+	echo "Unrecognized control command $ACTION"
+fi

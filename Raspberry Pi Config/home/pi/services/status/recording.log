@@ -1,0 +1,4 @@
+-- AUDIODEV=plughw:X18XR18,0 rec -q --buffer 262144 -c 2 -b 24 /home/pi/recordings/XR18-2-35db-recording-2018-08-10.20:35:37.wav vol 35db 0.005
+rec WARN alsa: over-run
+rec WARN alsa: over-run
+rec WARN vol: limited 3243484 values (1 percent).

@@ -1,0 +1,16 @@
+#!/bin/bash
+
+while [ 1 ]
+do
+  FILENAME=/media/FILES/XR18/$(date +"%Y%m%d_%H%M").mp3
+  AUDIODEV="hw:X18XR18,0" rec -q --buffer 262144 -c 2 -C 256 $FILENAME silence 1 0.1 2% 1 3:00 2% gain -9
+  [ $? -eq 0 ] || exit $?
+  
+  # Remove file if nothing has been recorded
+  FILESIZE=$(du -sb $FILENAME | cut -f 1)
+  if [ $SIZE -lt 2048 ]; then
+    rm $FILENAME
+  fi
+  
+  sleep 30
+done
