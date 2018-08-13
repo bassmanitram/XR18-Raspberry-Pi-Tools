@@ -15,7 +15,7 @@ false
 pi
 <the password goes here>
 Démarrer l'enregistrement
-services/startsvc recording XR18 2 15db
+services/startsvc recording XR18 2 20db
 true
 tmp1
 192.168.4.1

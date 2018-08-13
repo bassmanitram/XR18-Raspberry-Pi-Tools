@@ -7,8 +7,8 @@ OSFX=recording-$(date +%Y-%m-%d.%H:%M:%S)
 if [ "$DEVICE" == "XR18" ]; then
 	CHANNELS=${2:-18}
 	VOL=${3:-0db}
-	echo -- AUDIODEV="plughw:X18XR18,0" rec -q --buffer 262144 -c $CHANNELS -b 24 "${ODIR}/XR18-${CHANNELS}-${VOL}-${OSFX}.wav" vol ${VOL} 0.005
-	AUDIODEV="plughw:X18XR18,0" rec -q --buffer 262144 -c $CHANNELS -b 24 "${ODIR}/XR18-${CHANNELS}-${VOL}-${OSFX}.wav" vol ${VOL} 0.005
+	echo -- AUDIODEV="plughw:X18XR18,0" rec -q --buffer 262144 -c $CHANNELS -b 24 "${ODIR}/XR18-${CHANNELS}-${VOL}-${OSFX}.wav" vol ${VOL} 0.05
+	AUDIODEV="plughw:X18XR18,0" rec -q --buffer 262144 -c $CHANNELS -b 24 "${ODIR}/XR18-${CHANNELS}-${VOL}-${OSFX}.wav" vol ${VOL} 0.05
 	#arecord -D plughw:CARD=X18XR18,DEV=0 -c $CHANNELS -f S32_LE -r 48000 "${ODIR}/XR18-${CHANNELS}-${OSFX}.wav"
 elif [ "$DEVICE" == "test" ]; then
 	arecord -D hw:1,0 -f S16_LE "${ODIR}/test-${OSFX}.wav"
