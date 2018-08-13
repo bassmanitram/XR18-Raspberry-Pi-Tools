@@ -1,6 +1,6 @@
 true
 false
-3
+4
 2
 false
 false
@@ -13,7 +13,7 @@ false
 192.168.4.1
 22
 pi
-<the password goes here>
+<password>
 Démarrer l'enregistrement
 services/startsvc recording XR18 2 20db
 true
@@ -21,7 +21,7 @@ tmp1
 192.168.4.1
 22
 pi
-<the password goes here>
+<password>
 Arreter l'enregistrement
 services/stopsvc recording
 true
@@ -29,9 +29,17 @@ tmp1
 192.168.4.1
 22
 pi
-<the password goes here>
+<password>
 Controller l'enregistrement
 services/checksvc recording
+true
+tmp1
+192.168.4.1
+22
+pi
+<password>
+Sync USB Drive
+sudo ./mysync
 true
 tmp1
 false
@@ -49,6 +57,12 @@ Spare Setting 4
 false
 null
 Blue
+Spare Setting 2
+Spare Setting 3
+Spare Setting 4
+false
+null
+Grey
 Spare Setting 2
 Spare Setting 3
 Spare Setting 4
